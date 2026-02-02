@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Will you be my Valentine?</title>
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg1: #ffd6e7;
+      --bg2: #ffeef6;
+      --card: #ffffffcc;
+      --yes: #ff3b7a;
+      --yesHover: #ff1f68;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      font-family: system-ui, sans-serif;
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .card {
+      width: min(720px, 92vw);
+      padding: 26px 22px;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 18px 60px rgba(0,0,0,.15);
+    }
+
+    h1 {
+      font-size: clamp(26px, 4vw, 44px);
+      margin: 12px 0 18px;
+    }
+
+    button {
+      padding: 14px 24px;
+      font-size: 18px;
+      font-weight: 800;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: var(--yes);
+      color: #fff;
+    }
+
+    .hidden { display: none; }
+
+    input {
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      width: 100%;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .error {
+      color: #c0262d;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bgMusic" loop>
+    <source src="https://dl.dropboxusercontent.com/scl/fi/9h7k8m2qj0p7t5u9z8v7m/Nothings-Gonna-Change-My-Love-For-You.mp3?rlkey=musicdemo&raw=1" type="audio/mpeg">
+  </audio>
+
+  <!-- PASSWORD SCREEN -->
+  <main class="card" id="lockScreen">
+    <h1>Before we begin 💖</h1>
+    <p>What do you call me the most?</p>
+    <input id="answer" placeholder="Type your answer…" />
+    <button onclick="unlock()">Unlock</button>
+    <div class="error" id="error"></div>
+  </main>
+
+  <!-- MAIN CONTENT -->
+  <main class="card hidden" id="mainContent">
+    <h1>Vedanti, will you be my Valentine? 💘</h1>
+
+    <section class="button-zone" id="zone">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </section>
+
+    <section class="hidden" id="result">
+      <h1>YAY! 🎉</h1>
+      <p>I knew it ❤️</p>
+    </section>
+  </main>
+
+  <script>
+    const correctAnswer = "bebaa";
+    const music = document.getElementById("bgMusic");
+
+    function unlock() {
+      const input = document.getElementById("answer").value.trim().toLowerCase();
+      const error = document.getElementById("error");
+
+      if (input === correctAnswer) {
+        document.getElementById("lockScreen").classList.add("hidden");
+        document.getElementById("mainContent").classList.remove("hidden");
+        music.play();
+      } else {
+        error.textContent = "Hmm… that doesn’t sound right 😏";
+      }
+    }
+  </script>
+</body>
+</html>
